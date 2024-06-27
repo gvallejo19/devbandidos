@@ -5,9 +5,9 @@ import LoginComponent from './pages/LoginComponent';
 import MenuComponent from './pages/MenuComponent';
 import ManagementUserComponent from './pages/ManagementUserComponent';
 import ProfileComponent from './pages/ProfileComponent';
-import InventoryComponent from './pages/InventoryComponent';
-import ReservationComponent from './pages/ReservationComponent';
-import ReservationHistoryComponent from './pages/ReservationHistoryComponent';
+import EquiposComponent from './pages/EquiposComponent';
+import ReservationComponent from './pages/ReservasComponent';
+import EspaciosComponent from './pages/EspaciosComponent';
 import laboratorioComponent from './pages/LaboratorioComponent'
 import EquipmentSpacesComponent from './pages/EquipmentSpacesComponent';
 import { AuthProvider } from './context/AuthContext';
@@ -25,10 +25,10 @@ const App = () => {
             <Route path='/menu/*' element={<ProtectedRoute element={MenuComponent} />} />
             <Route path='/management-user' element={<ProtectedRoute element={ManagementUserComponent} />} />
             <Route path='/profile' element={<ProtectedRoute element={ProfileComponent} />} />
-            <Route path='/inventory' element={<ProtectedRoute element={InventoryComponent} />} />
-            <Route path='/reservations' element={<ProtectedRoute element={ReservationComponent} />} />
-            <Route path='/reservation-history' element={<ProtectedRoute element={ReservationHistoryComponent} />} />
-            <Route path='/laboratories' element={<ProtectedRoute element={laboratorioComponent} />} />
+            <Route path='/equipos' element={<ProtectedRoute element={EquiposComponent} />} />
+            <Route path='/reservaciones' element={<ProtectedRoute element={ReservationComponent} />} />
+            <Route path='/espacios' element={<ProtectedRoute element={EspaciosComponent} />} />
+            <Route path='/laboratorios' element={<ProtectedRoute element={laboratorioComponent} />} />
             <Route path='/equipment-spaces' element={<ProtectedRoute element={EquipmentSpacesComponent} />} />
             {/* Non-protected route */}
             <Route path='/password-reset' element={<PasswordResetComponent />} />
