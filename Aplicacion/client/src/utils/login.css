@@ -1,0 +1,92 @@
+/* Estilos para el contenedor principal */
+.container {
+    width: 300px; /* Ancho fijo del formulario */
+    margin: 100px auto; /* Centra el formulario verticalmente y lo posiciona en el centro horizontalmente */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el título */
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Estilos para los campos del formulario */
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"],
+  form button {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Estilos para los campos de entrada al enfocar */
+  form input[type="text"]:focus,
+  form input[type="email"]:focus,
+  form input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff; /* Cambia el color del borde al enfocar */
+  }
+  
+  /* Estilos para el botón */
+  form button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos para el mensaje de error */
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el enlace de alternancia */
+  .toggle-button {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+  
+  .toggle-button:hover {
+    color: #0056b3;
+  }
+  
