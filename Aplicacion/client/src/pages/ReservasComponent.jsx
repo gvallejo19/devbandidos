@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../utils/reservas.css';
 
 const API_URL = 'http://localhost:3307';
 
@@ -91,53 +92,61 @@ const Reservas = () => {
   };
 
   return (
-    <div>
+    <div className="reservas-container">
       <h1>Administrar Reservas</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="reserva-form">
+        <div className="form-group">
           <label>Usuario ID</label>
-          <input type='number' value={usuarioId} onChange={(e) => setUsuarioId(e.target.value)} required />
+          <input type="number" value={usuarioId} onChange={(e) => setUsuarioId(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Laboratorio ID</label>
-          <input type='number' value={laboratorioId} onChange={(e) => setLaboratorioId(e.target.value)} required />
+          <input type="number" value={laboratorioId} onChange={(e) => setLaboratorioId(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Espacio ID</label>
-          <input type='number' value={espacioId} onChange={(e) => setEspacioId(e.target.value)} />
+          <input type="number" value={espacioId} onChange={(e) => setEspacioId(e.target.value)} />
         </div>
-        <div>
+        <div className="form-group">
           <label>Fecha Reserva</label>
-          <input type='date' value={fechaReserva} onChange={(e) => setFechaReserva(e.target.value)} required />
+          <input type="date" value={fechaReserva} onChange={(e) => setFechaReserva(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Hora Inicio</label>
-          <input type='time' value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} required />
+          <input type="time" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Hora Fin</label>
-          <input type='time' value={horaFin} onChange={(e) => setHoraFin(e.target.value)} required />
+          <input type="time" value={horaFin} onChange={(e) => setHoraFin(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Tipo Reserva</label>
-          <input type='text' value={tipoReserva} onChange={(e) => setTipoReserva(e.target.value)} required />
+          <input type="text" value={tipoReserva} onChange={(e) => setTipoReserva(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Estado</label>
-          <input type='text' value={estado} onChange={(e) => setEstado(e.target.value)} required />
+          <input type="text" value={estado} onChange={(e) => setEstado(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Cantidad de Equipos</label>
-          <input type='number' value={cantidadEquipos} onChange={(e) => setCantidadEquipos(e.target.value)} required />
+          <input type="number" value={cantidadEquipos} onChange={(e) => setCantidadEquipos(e.target.value)} required />
         </div>
-        <button type='submit'>{editing ? 'Actualizar' : 'Agregar'} Reserva</button>
+        <button type="submit" className="submit-button">{editing ? 'Actualizar' : 'Agregar'} Reserva</button>
       </form>
-      <ul>
+      <ul className="reservas-list">
         {reservas.map((reserva) => (
-          <li key={reserva.id}>
-            {reserva.fecha_reserva} - {reserva.hora_inicio} a {reserva.hora_fin} - {reserva.tipo_reserva} - Estado: {reserva.estado} - Equipos: {reserva.cantidad_equipos}
-            <button onClick={() => handleEdit(reserva)}>Editar</button>
-            <button onClick={() => handleDelete(reserva.id)}>Eliminar</button>
+          <li key={reserva.id} className="reserva-item">
+            <div className="reserva-info">
+              <span><strong>Fecha:</strong> {reserva.fecha_reserva}</span>
+              <span><strong>Hora:</strong> {reserva.hora_inicio} - {reserva.hora_fin}</span>
+              <span><strong>Tipo:</strong> {reserva.tipo_reserva}</span>
+              <span><strong>Estado:</strong> {reserva.estado}</span>
+              <span><strong>Equipos:</strong> {reserva.cantidad_equipos}</span>
+            </div>
+            <div className="reserva-actions">
+              <button onClick={() => handleEdit(reserva)} className="edit-button">Editar</button>
+              <button onClick={() => handleDelete(reserva.id)} className="delete-button">Eliminar</button>
+            </div>
           </li>
         ))}
       </ul>
@@ -146,3 +155,4 @@ const Reservas = () => {
 };
 
 export default Reservas;
+

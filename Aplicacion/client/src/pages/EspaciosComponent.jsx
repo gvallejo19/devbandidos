@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../utils/espacios.css';
 
 const API_URL = 'http://localhost:3307';
 
@@ -77,18 +78,18 @@ const Espacios = () => {
   };
 
   return (
-    <div>
+    <div className="espacios-container">
       <h1>Administrar Espacios</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="espacio-form">
+        <div className="form-group">
           <label>Nombre</label>
           <input type='text' value={nombre} onChange={(e) => setNombre(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Descripción</label>
           <input type='text' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required />
         </div>
-        <div>
+        <div className="form-group">
           <label>Laboratorio</label>
           <select value={laboratorioId} onChange={(e) => setLaboratorioId(e.target.value)} required>
             <option value=''>Selecciona un laboratorio</option>
@@ -99,14 +100,20 @@ const Espacios = () => {
             ))}
           </select>
         </div>
-        <button type='submit'>{editing ? 'Actualizar' : 'Agregar'} Espacio</button>
+        <button type='submit' className="submit-button">{editing ? 'Actualizar' : 'Agregar'} Espacio</button>
       </form>
-      <ul>
+      <ul className="espacios-list">
         {espacios.map((espacio) => (
-          <li key={espacio.id}>
-            {espacio.nombre} - {espacio.descripcion} - Laboratorio: {getLaboratorioNombre(espacio.laboratorio_id)}
-            <button onClick={() => handleEdit(espacio)}>Editar</button>
-            <button onClick={() => handleDelete(espacio.id)}>Eliminar</button>
+          <li key={espacio.id} className="espacio-item">
+            <div className="espacio-info">
+              <span><strong>Nombre:</strong> {espacio.nombre}</span>
+              <span><strong>Descripción:</strong> {espacio.descripcion}</span>
+              <span><strong>Laboratorio:</strong> {getLaboratorioNombre(espacio.laboratorio_id)}</span>
+            </div>
+            <div className="espacio-actions">
+              <button onClick={() => handleEdit(espacio)} className="edit-button">Editar</button>
+              <button onClick={() => handleDelete(espacio.id)} className="delete-button">Eliminar</button>
+            </div>
           </li>
         ))}
       </ul>
@@ -115,3 +122,4 @@ const Espacios = () => {
 };
 
 export default Espacios;
+

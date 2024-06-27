@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import '../utils/menu.css'; // Importa tus estilos CSS aquí
 
 const MenuComponent = () => {
   const { logout } = useAuth();
 
   return (
-    <div>
+    <div className="menu-container">
       <h2>Menu</h2>
       <nav>
-        <ul>
-          <li><Link to="/management-user">Manage Users</Link></li>
+        <ul className="menu-list">
+        <li><Link to="/management-user">Manage Users</Link></li>
           <li><Link to="/profile">Profile</Link></li>
           <li><Link to="/inventory">Inventory</Link></li>
           <li><Link to="/equipos">Equipos</Link></li>
@@ -21,10 +22,11 @@ const MenuComponent = () => {
           <li><Link to="/password-reset">Password Reset</Link></li>
         </ul>
       </nav>
-      <button onClick={logout}>Logout</button>
+      <button className="logout-button" onClick={logout}>Cerrar sesión</button>
     </div>
   );
 };
 
 export default MenuComponent;
+
 

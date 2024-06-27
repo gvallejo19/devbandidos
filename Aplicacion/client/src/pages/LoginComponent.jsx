@@ -2,22 +2,47 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../utils/login.css'; // Importa tus estilos CSS aquí
+
 const API_URL = 'http://localhost:3307';
 
+const PasswordResetLink = ({ onClick }) => (
+  <p className="password-reset-link" onClick={onClick}>
+    ¿Olvidaste tu contraseña?
+  </p>
+);
+
+const PasswordResetForm = ({ onSubmit, resetEmail, setResetEmail, resetMessage, resetError }) => (
+  <div className="password-reset-container">
+    <h2>Resetear Contraseña</h2>
+    {resetMessage && <p className="success-message">{resetMessage}</p>}
+    {resetError && <p className="error-message">{resetError}</p>}
+    <form onSubmit={onSubmit}>
+      <div>
+        <label>Email</label>
+        <input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+      </div>
+      <button type="submit">Resetear Contraseña</button>
+    </form>
+  </div>
+);
+
 const LoginComponent = () => {
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [name, setName] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('usuario');
-  const { login, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
 
   // State for password reset
   const [resetEmail, setResetEmail] = useState('');
   const [resetMessage, setResetMessage] = useState('');
   const [resetError, setResetError] = useState('');
+  const [showResetForm, setShowResetForm] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -63,52 +88,53 @@ const LoginComponent = () => {
   };
 
   return (
-    <div>
-      <h1>{isRegistering ? 'Register' : 'Login'}</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        {isRegistering && (
-          <>
-            <div>
-              <label>Name</label>
-              <input type='text' value={name} onChange={(e) => setName(e.target.value)} required />
-            </div>
-            <div>
-              <label>Tipo de Usuario</label>
-              <input type='text' value={tipoUsuario} onChange={(e) => setTipoUsuario(e.target.value)} required />
-            </div>
-          </>
-        )}
-        <div>
-          <label>Email</label>
-          <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password</label>
-          <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <button type='submit'>{isRegistering ? 'Register' : 'Login'}</button>
-      </form>
-      <button onClick={() => setIsRegistering(!isRegistering)}>
-        {isRegistering ? 'Switch to Login' : 'Switch to Register'}
-      </button>
-
-      {/* Password Reset Form */}
-      <div>
-        <h2>Reset Password</h2>
-        {resetMessage && <p style={{ color: 'green' }}>{resetMessage}</p>}
-        {resetError && <p style={{ color: 'red' }}>{resetError}</p>}
-        <form onSubmit={handleSubmitReset}>
+    <div className="login-container">
+      <div className="login-box">
+        <h1>{isRegistering ? 'Registro' : 'Inicio de sesión'}</h1>
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          {isRegistering && (
+            <>
+              <div>
+                <label>Nombre</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+              </div>
+              <div>
+                <label>Tipo de Usuario</label>
+                <input type="text" value={tipoUsuario} onChange={(e) => setTipoUsuario(e.target.value)} required />
+              </div>
+            </>
+          )}
           <div>
             <label>Email</label>
-            <input type='email' value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
-          <button type='submit'>Reset Password</button>
+          <div>
+            <label>Contraseña</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+          <button type="submit">{isRegistering ? 'Registrar' : 'Iniciar sesión'}</button>
         </form>
+        <button className="switch-button" onClick={() => setIsRegistering(!isRegistering)}>
+          {isRegistering ? 'Cambiar a Iniciar sesión' : 'Cambiar a Registro'}
+        </button>
       </div>
+
+      {showResetForm ? (
+        <PasswordResetForm
+          onSubmit={handleSubmitReset}
+          resetEmail={resetEmail}
+          setResetEmail={setResetEmail}
+          resetMessage={resetMessage}
+          resetError={resetError}
+        />
+      ) : (
+        <PasswordResetLink onClick={() => setShowResetForm(true)} />
+      )}
     </div>
   );
 };
 
 export default LoginComponent;
+
 
