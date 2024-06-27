@@ -7,11 +7,11 @@ import ProfileComponent from './pages/ProfileComponent';
 import InventoryComponent from './pages/InventoryComponent';
 import ReservationComponent from './pages/ReservationComponent';
 import ReservationHistoryComponent from './pages/ReservationHistoryComponent';
-import LaboratoriesComponent from './pages/LaboratoriesComponent';
 import EquipmentSpacesComponent from './pages/EquipmentSpacesComponent';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import PasswordResetComponent from './pages/PasswordResetComponent';
+import LaboratorioComponent from './pages/LaboratorioComponent';
 
 const App = () => {
   return (
@@ -26,9 +26,9 @@ const App = () => {
             <Route path='/inventory' element={<ProtectedRoute element={<InventoryComponent />} />} />
             <Route path='/reservations' element={<ProtectedRoute element={<ReservationComponent />} />} />
             <Route path='/reservation-history' element={<ProtectedRoute element={<ReservationHistoryComponent />} />} />
-            <Route path='/laboratories' element={<ProtectedRoute element={<LaboratoriesComponent />} />} />
             <Route path='/equipment-spaces' element={<ProtectedRoute element={<EquipmentSpacesComponent />} />} />
             <Route path='/password-reset' element={<PasswordResetComponent />} />
+            <Route path='/laboratorio' element={<LaboratorioComponent />} />
           </Routes>
         </div>
       </Router>

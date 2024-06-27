@@ -1,0 +1,82 @@
+.laboratorio-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1,
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.laboratorio-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.laboratorio-form label {
+    font-weight: bold;
+}
+
+.laboratorio-form input,
+.laboratorio-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.laboratorio-form button {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.laboratorio-form button:hover {
+    background-color: #0056b3;
+}
+
+.laboratorio-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.laboratorio-table th,
+.laboratorio-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.laboratorio-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.laboratorio-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.laboratorio-table tr:hover {
+    background-color: #ddd;
+}
+
+.laboratorio-table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.laboratorio-table button:hover {
+    background-color: #0056b3;
+}
