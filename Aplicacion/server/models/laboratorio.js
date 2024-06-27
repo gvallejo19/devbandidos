@@ -14,7 +14,7 @@ const Laboratorio = sequelize.define('Laboratorio', {
   },
   capacidad: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   ubicacion: {
     type: DataTypes.STRING(255),
