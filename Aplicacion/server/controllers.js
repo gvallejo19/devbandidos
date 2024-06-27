@@ -8,7 +8,12 @@ const Reserva = require('./models/reserva');
 const HistorialReserva = require('./models/historialReserva');
 
 // Controladores para Usuario
-exports.createUsuario = async (data) => await Usuario.create(data);
+exports.createUsuario = async (data) => {
+    const { nombre, email, contraseña, tipo_usuario } = data;
+    console.log('Received data for user creation:', data);
+    const hashedPassword = await bcrypt.hash(contraseña, 10);
+    return await Usuario.create({ nombre, email, contraseña: hashedPassword, tipo_usuario });
+};
 
 exports.getUsuarios = async () => await Usuario.findAll();
 
@@ -32,11 +37,10 @@ exports.deleteUsuario = async (id) => {
 
 exports.authenticateUser = async (email, password) => {
     const usuario = await Usuario.findOne({ where: { email } });
-    if (!usuario) {
-        return null;
+    if (usuario && await bcrypt.compare(password, usuario.contraseña)) {
+        return usuario;
     }
-    const match = await bcrypt.compare(password, usuario.contraseña);
-    return match ? usuario : null;
+    return null;
 };
 
 exports.resetPassword = async (email) => {

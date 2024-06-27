@@ -21,9 +21,12 @@ sequelize.sync()
 // Rutas para 'Usuarios'
 app.post('/usuarios', async (req, res) => {
     try {
-        const usuario = await controllers.createUsuario(req.body);
+        const { nombre, email, contraseña, tipo_usuario } = req.body;
+        console.log('Received request for user creation:', req.body);
+        const usuario = await controllers.createUsuario({ nombre, email, contraseña, tipo_usuario });
         res.status(201).json(usuario);
     } catch (error) {
+        console.error('Error creating user:', error);
         res.status(400).json({ error: error.message });
     }
 });
