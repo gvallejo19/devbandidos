@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import "../utils/login.css"; // Importar estilos CSS
-
 const API_URL = 'http://localhost:3307';
 
 const LoginComponent = () => {
@@ -13,59 +11,61 @@ const LoginComponent = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [name, setName] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('usuario');
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Maneja el envío del formulario
+  // State for password reset
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetMessage, setResetMessage] = useState('');
+  const [resetError, setResetError] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/menu', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isRegistering) {
-      await handleRegistration();
+      try {
+        const payload = { nombre: name, email, contraseña: password, tipo_usuario: tipoUsuario };
+        const response = await axios.post(`${API_URL}/usuarios`, payload);
+        login(response.data);
+        navigate('/menu', { replace: true });
+      } catch (error) {
+        console.error('Registration error:', error);
+        setError('Registration failed. Please try again.');
+      }
     } else {
-      await handleLogin();
+      try {
+        const payload = { email, password };
+        const response = await axios.post(`${API_URL}/usuarios/login`, payload);
+        login(response.data);
+        navigate('/menu', { replace: true });
+      } catch (error) {
+        console.error('Login error:', error);
+        setError('Invalid credentials. Please try again.');
+      }
     }
   };
 
-  // Maneja el registro de usuario
-  const handleRegistration = async () => {
+  const handleSubmitReset = async (event) => {
+    event.preventDefault();
     try {
-      const payload = { nombre: name, email, contraseña: password, tipo_usuario: tipoUsuario };
-      console.log('Registering user with payload:', payload);
-      const response = await axios.post(`${API_URL}/usuarios`, payload);
-      console.log('Registration response:', response.data); // Log response
-      login(response.data);
-      navigate('/menu'); // Redirige al menú después de registrarse
+      const response = await axios.post(`${API_URL}/usuarios/reset-password`, { email: resetEmail });
+      setResetMessage(response.data.message);
+      setResetError('');
     } catch (error) {
-      console.error('Registration error:', error);
-      setError('Registration failed. Please try again.');
+      setResetMessage('');
+      setResetError('Failed to reset password. Please try again.');
     }
-  };
-
-  // Maneja el inicio de sesión
-  const handleLogin = async () => {
-    try {
-      const payload = { email, password };
-      console.log('Logging in user with payload:', payload);
-      const response = await axios.post(`${API_URL}/usuarios/login`, payload);
-      console.log('Login response:', response.data); // Log response
-      login(response.data);
-      navigate('/menu'); // Redirige al menú después de iniciar sesión
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('Invalid credentials. Please try again.');
-    }
-  };
-
-  // Alternar entre registro y login
-  const handleToggleMode = () => {
-    setIsRegistering(!isRegistering);
-    setError(''); // Reiniciar mensaje de error al cambiar modo
   };
 
   return (
-    <div className="container">
+    <div>
       <h1>{isRegistering ? 'Register' : 'Login'}</h1>
-      {error && <p className="error-message">{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         {isRegistering && (
           <>
@@ -89,9 +89,23 @@ const LoginComponent = () => {
         </div>
         <button type='submit'>{isRegistering ? 'Register' : 'Login'}</button>
       </form>
-      <button className="toggle-button" onClick={handleToggleMode}>
+      <button onClick={() => setIsRegistering(!isRegistering)}>
         {isRegistering ? 'Switch to Login' : 'Switch to Register'}
       </button>
+
+      {/* Password Reset Form */}
+      <div>
+        <h2>Reset Password</h2>
+        {resetMessage && <p style={{ color: 'green' }}>{resetMessage}</p>}
+        {resetError && <p style={{ color: 'red' }}>{resetError}</p>}
+        <form onSubmit={handleSubmitReset}>
+          <div>
+            <label>Email</label>
+            <input type='email' value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+          </div>
+          <button type='submit'>Reset Password</button>
+        </form>
+      </div>
     </div>
   );
 };

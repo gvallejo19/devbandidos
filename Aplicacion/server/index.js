@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./database');
 const controllers = require('./controllers');
-//onst { sendPasswordResetEmail } = require('./emailService'); // Importa el servicio de correo
+const { sendPasswordResetEmail } = require('./emailService'); // Importa el servicio de correo
 
 const app = express();
 app.use(cors());
@@ -276,3 +276,4 @@ const PORT = process.env.PORT || 3307;
 app.listen(PORT, () => {
     console.log(`Corriendo en el puerto ${PORT}`);
 });
+
