@@ -57,6 +57,35 @@ exports.getLaboratorios = async () => await Laboratorio.findAll();
 
 exports.getLaboratorioById = async (id) => await Laboratorio.findByPk(id);
 
+exports.createLaboratorio = async (data, equipoIds) => {
+  try {
+    const laboratorio = await Laboratorio.create(data);
+
+    if (equipoIds && equipoIds.length > 0) {
+      await associateEquipos(laboratorio.id, equipoIds);
+    }
+
+    return laboratorio;
+  } catch (error) {
+    throw new Error('Error creating laboratorio and associating equipos:', error);
+  }
+};
+
+// Función para asociar equipos a un laboratorio
+const associateEquipos = async (laboratorioId, equipoIds) => {
+  const laboratorio = await Laboratorio.findByPk(laboratorioId);
+  if (!laboratorio) {
+    throw new Error('Laboratorio not found');
+  }
+
+  const equipos = await Equipo.findAll({ where: { id: equipoIds } });
+  if (equipos.length !== equipoIds.length) {
+    throw new Error('One or more equipos not found');
+  }
+
+  await laboratorio.setEquipos(equipos); // Asociar equipos al laboratorio
+};
+
 exports.updateLaboratorio = async (id, data) => {
     const laboratorio = await Laboratorio.findByPk(id);
     if (!laboratorio) {
