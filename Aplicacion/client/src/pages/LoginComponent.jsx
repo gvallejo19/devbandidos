@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import '../utils/login.css'; // Importa tus estilos CSS aquí
+import '../utils/login.css';
 
 const API_URL = 'http://localhost:3307';
 
@@ -12,7 +12,7 @@ const PasswordResetLink = ({ onClick }) => (
   </p>
 );
 
-const PasswordResetForm = ({ onSubmit, resetEmail, setResetEmail, resetMessage, resetError }) => (
+const PasswordResetForm = ({ onSubmit, onCancel, resetEmail, setResetEmail, resetMessage, resetError }) => (
   <div className="password-reset-container">
     <h2>Resetear Contraseña</h2>
     {resetMessage && <p className="success-message">{resetMessage}</p>}
@@ -24,6 +24,7 @@ const PasswordResetForm = ({ onSubmit, resetEmail, setResetEmail, resetMessage, 
       </div>
       <button type="submit">Resetear Contraseña</button>
     </form>
+    <button onClick={onCancel}>Cancelar</button>
   </div>
 );
 
@@ -87,9 +88,13 @@ const LoginComponent = () => {
     }
   };
 
+  const handleCancelReset = () => {
+    setShowResetForm(false);
+  };
+
   return (
     <div className="login-container">
-      <div className="login-box">
+      <div className={`login-box ${showResetForm ? 'hidden' : ''}`}>
         <h1>{isRegistering ? 'Registro' : 'Inicio de sesión'}</h1>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
@@ -115,26 +120,24 @@ const LoginComponent = () => {
           </div>
           <button type="submit">{isRegistering ? 'Registrar' : 'Iniciar sesión'}</button>
         </form>
+        <PasswordResetLink onClick={() => setShowResetForm(true)} />
         <button className="switch-button" onClick={() => setIsRegistering(!isRegistering)}>
           {isRegistering ? 'Cambiar a Iniciar sesión' : 'Cambiar a Registro'}
         </button>
       </div>
 
-      {showResetForm ? (
+      {showResetForm && (
         <PasswordResetForm
           onSubmit={handleSubmitReset}
+          onCancel={handleCancelReset}
           resetEmail={resetEmail}
           setResetEmail={setResetEmail}
           resetMessage={resetMessage}
           resetError={resetError}
         />
-      ) : (
-        <PasswordResetLink onClick={() => setShowResetForm(true)} />
       )}
     </div>
   );
 };
 
 export default LoginComponent;
-
-
